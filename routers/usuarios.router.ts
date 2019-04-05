@@ -57,6 +57,30 @@ Usuario.findById(req.params.id).then(usu=>{
 }).catch(next)
 }
 
+findAvaliacao = (req,resp,next)=>{
+  Usuario.findById(req.params.id, "+avaliacao").then(ava=>{
+    if(!ava){
+      throw new NotFoundError('Sem avaliação')
+    }else{
+      resp.json(ava.avaliacao)
+      return next()
+    }
+  }).catch(next)
+}
+replaceAvaliacao = (req,resp,next)=>{
+Usuario.findById(req.params.id).then(ava=>{
+  if(!ava){
+    throw new NotFoundError('Sem Avaliação')
+  }else{
+    ava.fotos = req.body // um array
+    return ava.save()
+  }
+}).then(ava=>{
+  resp.json(ava.avaliacao)
+  return next()
+}).catch(next)
+}
+
 findFotos = (req,resp,next)=>{
   Usuario.findById(req.params.id, "+fotos").then(fot=>{
     if(!fot){
@@ -105,6 +129,9 @@ findById = (req,resp,next)=>{
 
     application.get('/usuario/:id/endereco',[this.validateId,  this.findEndereco])
     application.put('/usuario/:id/endereco', [this.validateId, this.replaceEndereco])
+
+    application.get('/usuario/:id/avaliacao',[this.validateId,  this.findAvaliacao])
+    application.put('/usuario/:id/avaliacao', [this.validateId, this.replaceAvaliacao])
 
     application.get('/usuario/:id/fotos', [this.validateId, this.findFotos])
     application.put('/usuario/:id/fotos', [this.validateId, this.replaceFotos])
