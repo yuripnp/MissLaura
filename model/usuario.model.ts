@@ -26,6 +26,12 @@ export interface ContatosItem extends mongoose.Document{
   facebook: String
 }
 
+export interface AvaliacaoItem extends mongoose.Document{
+  avaliador: mongoose.Types.ObjectId | Usuario,
+  nota: Number,
+  comentario: String
+}
+
 export interface FotosItem extends mongoose.Document{
   tag: String,
   imagem: String
@@ -41,6 +47,7 @@ export interface Usuario extends mongoose.Document{
   contatos: ContatosItem[],
   endereco: EnderecoItem[],
   fotos: FotosItem[],
+  avaliacao: AvaliacaoItem[],
   perfilProfissional: mongoose.Types.ObjectId | Profissional,
   perfilSalao: mongoose.Types.ObjectId | Salao
 }
@@ -93,6 +100,24 @@ const contatosSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: true
+  }
+})
+
+const avaliacaoSchema = new mongoose.Schema({
+  avaliador:{
+    type:mongoose.Schema.Types.ObjectId,
+    required: false,
+    selec: false
+  },
+  nota:{
+    type: Number,
+    required: false,
+    
+  },
+  comentario:{
+    type: String,
+    required: false,
+    maxlength: 120
   }
 })
 
@@ -150,6 +175,16 @@ const usuarioSchema = new mongoose.Schema({
     required: false,
     select: false
   },
+  fotos:{
+    type:[fotosSchema],
+    required: false,
+    select: false
+  },
+  avaliacao:{
+    type:[avaliacaoSchema],
+    required: false,
+    select: false
+  },
   perfilProfissional:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Profissao',
@@ -161,6 +196,5 @@ const usuarioSchema = new mongoose.Schema({
     required: false
   }
 })
-
 
 export const Usuario = mongoose.model<Usuario>('Usuario', usuarioSchema)
