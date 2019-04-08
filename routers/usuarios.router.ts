@@ -113,6 +113,17 @@ findById = (req,resp,next)=>{
   .catch(next)
 }
 
+findPreferido = (req,resp,next)=>{
+  Usuario.findById(req.params.id, "+preferido").then(pref=>{
+    if(!pref){
+      throw new NotFoundError('Usuario não encontrado')
+    }else{
+      resp.json(pref.preferido)
+      return next()
+    }
+  }).catch(next)
+}
+
 
 
   applyRoutes(application: restify.Server){
@@ -135,6 +146,9 @@ findById = (req,resp,next)=>{
 
     application.get('/usuario/:id/fotos', [this.validateId, this.findFotos])
     application.put('/usuario/:id/fotos', [this.validateId, this.replaceFotos])
+
+    application.get('/usuario/:id/preferido', [this.validateId, this.findPreferido])
+    
 
 
   }
