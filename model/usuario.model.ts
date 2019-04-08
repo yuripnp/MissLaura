@@ -57,6 +57,10 @@ export interface Usuario extends mongoose.Document{
   perfilSalao: mongoose.Types.ObjectId | Salao
 }
 
+// export interface UsuarioModel extends mongoose.Model<Usuario>{
+//   findByPreferido(preferido:mongoose.Types.ObjectId | Usuario): Promise<Usuario>
+// }
+
 const enderecoSchema = new mongoose.Schema({
   estado:{
     type: String,
@@ -214,5 +218,9 @@ const usuarioSchema = new mongoose.Schema({
     required: false
   }
 })
+
+// usuarioSchema.static.findByPreferido = function(preferido: mongoose.Schema.Types.ObjectId){
+//   return this.findOne({preferido})
+// }
 
 export const Usuario = mongoose.model<Usuario>('Usuario', usuarioSchema)

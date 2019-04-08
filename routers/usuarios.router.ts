@@ -113,23 +113,23 @@ findById = (req,resp,next)=>{
   .catch(next)
 }
 
-findByPreferido = (req,resp,next)=>{
+/*findByPreferido = (req,resp,next)=>{ // problema de versão. Não estou conseguindo usar a rota de procurar primeiro por email
   if(req.query.preferido){
-    Usuario.find({preferido:req.query.preferido})
+    Usuario.findByPreferido(req.query.preferido)
     .then(this.renderAll(resp, next))
     .catch(next)
   }else{
     next()
   }
 
-}
+}*/
 
 
 
   applyRoutes(application: restify.Server){
 
-
-    application.get({path:'/usuario', version: '2.0.0'}, [this.findByPreferido, this.findAll])
+    
+   
     application.get('/usuario',this.findAll)
     application.get('/usuario/:id',[this.validateId, this.findById])
     application.post('/usuario', this.save)
