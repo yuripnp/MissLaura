@@ -37,6 +37,10 @@ export interface FotosItem extends mongoose.Document{
   imagem: String
 }
 
+export interface PreferidoItem extends mongoose.Document{
+  cliente: mongoose.Types.ObjectId | Usuario
+}
+
 
 export interface Usuario extends mongoose.Document{
   nome: String,
@@ -48,6 +52,7 @@ export interface Usuario extends mongoose.Document{
   endereco: EnderecoItem[],
   fotos: FotosItem[],
   avaliacao: AvaliacaoItem[],
+  preferido: PreferidoItem[],
   perfilProfissional: mongoose.Types.ObjectId | Profissional,
   perfilSalao: mongoose.Types.ObjectId | Salao
 }
@@ -134,6 +139,14 @@ const fotosSchema = new mongoose.Schema({
   }
 })
 
+const preferidoSchema = new mongoose.Schema({
+  cliente:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+    select: false
+  }
+})
+
 const usuarioSchema = new mongoose.Schema({
   nome:{
     type: String,
@@ -182,6 +195,11 @@ const usuarioSchema = new mongoose.Schema({
   },
   avaliacao:{
     type:[avaliacaoSchema],
+    required: false,
+    select: false
+  },
+  preferido:{
+    type:[preferidoSchema],
     required: false,
     select: false
   },
