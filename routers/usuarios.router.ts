@@ -9,6 +9,16 @@ class UsuarioRouter extends ModelRouter<Usuario> {
   constructor(){
     super(Usuario)
   }
+
+
+
+  
+
+
+
+
+
+
   findContatos = (req,resp,next)=>{
     Usuario.findById(req.params.id, "+contatos").then(cont=>{
       if(!cont){

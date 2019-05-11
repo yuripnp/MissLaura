@@ -2,15 +2,23 @@ import{Router} from './router'
 import * as mongoose from 'mongoose'
 import{NotFoundError} from 'restify-errors'
 
+
 // criando um tipo generico que só vai ser usado em rumtime
 export abstract class ModelRouter<D extends mongoose.Document> extends Router {
+
+ 
+
   constructor(protected model: mongoose.Model<D>){
     super()
+    
   }
 
   protected prepareOne(query: mongoose.DocumentQuery<D,D>):mongoose.DocumentQuery<D,D>{
     return query
   }
+
+  
+ 
 
 
   validateId = (req,resp,next)=>{
@@ -20,7 +28,7 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
      next()
     }
   }
-  //não estou conseguindo usar validação de id nos subdocumentos 
+  
 
   findAll = (req,resp,next)=>{
 this.model.find()
