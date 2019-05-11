@@ -12,9 +12,8 @@ export class Server{
 
   initializeDb(){
     (<any>mongoose).Promise = global.Promise
-    mongoose.connect(process.env.MONGOLAB_URI, function (error) {
-      if (error) console.error(error);
-      else console.log('mongo connected');
+    return mongoose.connect(environment.db.url,{
+      useMongoClient: true
     })
   }
 
